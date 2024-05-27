@@ -51,7 +51,13 @@ async function httpRequest(url, options) {
   return new Promise((resolve, reject) => {
     const { protocol } = new URL(url);
     const module = protocol == 'https:' ? https : http;
-    const req = module.request(url, options, resolve);
+    const req = module.request(url, {
+      ...options,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+        ...options.headers
+      }
+    }, resolve);
     req.on('error', reject);
     req.end();
   });
