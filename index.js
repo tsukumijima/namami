@@ -84,8 +84,12 @@ async function searchLives(tags, status) {
     isTagSearch: 'true',
     keyword: tags.join(' ')
   });
-  const { searchResult: { programs } } = await getEmbeddedData(url);
-  return programs[status].map((program) => program.id);
+  try {
+    const { searchResult: { programs } } = await getEmbeddedData(url);
+    return programs[status].map((program) => program.id);
+  } catch (error) {
+    return [];
+  }
 }
 
 async function getEmbeddedData(url) {
